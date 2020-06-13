@@ -6,7 +6,8 @@ export default class PlantList extends Component {
   constructor(){
     super();
     this.state = {
-      plants: []
+      plants: [],
+      filterPlants: []
     }
   }
   // add state with a property called "plants" - initialize as an empty array
@@ -14,11 +15,26 @@ componentDidMount(){
   axios.get("http://localhost:3333/plants")
   .then(res => {
     console.log({res});
-    this.setState({plants: res.data.plantsData})
+    this.setState({
+      plants: res.data.plantsData,
+      // filterPlants: plants
+    })
   })
   .catch(err => console.log(err));
 }
-  
+
+// changePlant = e => {
+//   if(e === "all"){
+//     this.setState({
+//       filterPlants: plants
+//     })
+//   } else if(e === "direct"){
+//     let filterPlants = this.state.plants
+//     filterPlants = filterPlants.filter((item) => {
+//       return (item.light !== e.light)
+//     })
+//   }
+// } 
 
   // when the component mounts:
   //   - fetch data from the server endpoint - http://localhost:3333/plants
@@ -28,6 +44,18 @@ componentDidMount(){
   render() {
     return (
       <main className="plant-list">
+        {/* <form>
+        <select
+                name="size"
+                id="sizes"
+                onChange={this.changePlant}
+                >
+                <option value="all">all</option>
+                <option value="direct">direct</option>
+                <option value="indirect">indirect</option>
+                <option value="low">low</option>
+                </select>
+        </form> */}
         {this.state?.plants?.map((plant) => (
           <div className="plant-card" key={plant.id}>
             <img className="plant-image" src={plant.img} alt={plant.name} />
